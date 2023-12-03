@@ -1,0 +1,74 @@
+CREATE DATABASE lab;
+-- ------------------------------------------------------------
+use lab;
+
+CREATE TABLE paciente (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    cpf CHAR(11) NOT NULL
+);
+
+CREATE TABLE medico (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    cpf CHAR(11) NOT NULL,
+    especialidade VARCHAR(255) NOT NULL
+);
+
+
+CREATE TABLE albumina (
+    id INT auto_increment PRIMARY KEY,
+    tipo_metrica BIT(64) NOT NULL,
+    resultado BIT(64) NOT NULL,
+    paciente_id INT NOT NULL,
+    FOREIGN KEY (paciente_id) REFERENCES paciente(id)
+);
+
+CREATE TABLE valorespadroes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    valor_normal DECIMAL(10,2) NOT NULL,
+    valor_deplecao_leve DECIMAL(10,2) NOT NULL,
+    valor_deplecao_moderada DECIMAL(10,2) NOT NULL,
+    valor_deplecao_grave DECIMAL(10,2) NOT NULL,
+    unidade VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE senha (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    chave_secreta VARCHAR(255) NOT NULL
+);
+
+
+CREATE TABLE usuario (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    login_hash CHAR(64) NOT NULL,
+    senha_hash CHAR(64) NOT NULL,
+    senha_id INT NOT NULL,
+    FOREIGN KEY (senha_id) REFERENCES senha(id)
+    );
+
+
+-- ------------------------------------------------------------    
+    use lab;
+    insert into paciente (nome,cpf)
+    values ("Isabela","33699825414");
+    
+	insert into paciente (nome,cpf)
+    values ("Fulana","89563258555");
+    
+    insert into medico (nome, cpf, especialidade)
+    values ("Anderson", "85697852145", "Hematologia");
+       
+
+    insert into valorespadroes (valor_normal, valor_deplecao_leve,
+    valor_deplecao_moderada, valor_deplecao_grave, unidade)
+    values (20, 15, 10, 4, "g/dL");
+    
+    insert into senha (chave_secreta)
+    values ("chavesupersecreta");
+    
+    -- ------------------------------------------------------------
+    use lab;
+    insert into usuario (login_hash, senha_hash, senha_id)
+    values ("be48fc8ffd4059d45d26ce5ea6848db9a9df61cede1aad22dba06442e5562ab8",
+    "0eccbdcefb4f497098b6bcc36fa7cae7b1ccccb6c9007f37787ec8d91664a818", 1);
